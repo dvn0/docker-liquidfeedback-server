@@ -51,7 +51,7 @@ RUN cd /liquid_feedback_core-v3.1.0 && \
 
 COPY createdb.sql /tmp
 # USER www-data
-RUN /etc/init.d/postgresql start && \
+RUN /etc/init.d/postgresql start && sleep 7 && \
 	su - www-data -s /bin/sh -c '/usr/bin/psql -v ON_ERROR_STOP=1 -f /opt/liquid_feedback_core/core.sql liquid_feedback' && \
 	su - www-data -s /bin/sh -c '/usr/bin/psql -f /tmp/createdb.sql liquid_feedback'
 
@@ -72,7 +72,7 @@ RUN cd moonbridge-v1.0.1 ; \
 	cp -f moonbridge_http.lua /opt/moonbridge/
 
 # Install WebMCP
-RUN apt-get install -y libpq-dev postgresql-server-dev-9.4
+RUN apt-get install -y libpq-dev postgresql-server-dev-9.6
 RUN cp -rf /usr/include/lua5.2/* /usr/include
 RUN cp -rf /usr/include/postgresql/* /usr/include
 RUN cp -rf /usr/include/postgresql/9.4/server/* /usr/include
