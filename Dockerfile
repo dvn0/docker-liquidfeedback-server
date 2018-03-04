@@ -6,7 +6,14 @@
 # ^C to stop
 
 FROM debian
+
+MAINTAINER dvn & lynX
+
 ENV HOME /
+
+ENV LF_CORE_VERSION 3.2.2
+ENV LF_FEND_VERSION 3.2.1
+ENV LF_WMCP_VERSION 2.1.0
 
 # Regenerate SSH host keys. baseimage-docker does not contain any
 #RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
@@ -29,7 +36,7 @@ RUN apt-get install -y python-pip
 RUN pip install markdown2
 
 # RUN uname -a
-# EXPOSE 8080
+EXPOSE 8080
 
 # Initialize postgresql
 USER postgres
@@ -40,12 +47,12 @@ RUN /etc/init.d/postgresql start && \
 
 USER root
 RUN cd /
-RUN wget -c http://www.public-software-group.org/pub/projects/liquid_feedback/backend/v3.1.0/liquid_feedback_core-v3.1.0.tar.gz
-RUN tar xzvf liquid_feedback_core-v3.1.0.tar.gz
-RUN cd liquid_feedback_core-v3.1.0 && make
+RUN wget -c http://www.public-software-group.org/pub/projects/liquid_feedback/backend/v${LF_CORE_VERSION}/liquid_feedback_core-v${LF_CORE_VERSION}.tar.gz
+RUN tar xzvf liquid_feedback_core-v${LF_CORE_VERSION}.tar.gz
+RUN cd liquid_feedback_core-v${LF_CORE_VERSION} && make
 
 RUN mkdir -p /opt/liquid_feedback_core
-RUN cd /liquid_feedback_core-v3.1.0 && \
+RUN cd /liquid_feedback_core-v${LF_CORE_VERSION} && \
 	cp -f core.sql lf_update lf_update_issue_order lf_update_suggestion_order \
 		/opt/liquid_feedback_core
 
@@ -75,20 +82,20 @@ RUN cd moonbridge-v1.0.1 ; \
 RUN apt-get install -y libpq-dev postgresql-server-dev-9.6
 RUN cp -rf /usr/include/lua5.2/* /usr/include
 RUN cp -rf /usr/include/postgresql/* /usr/include
-RUN cp -rf /usr/include/postgresql/9.4/server/* /usr/include
+RUN cp -rf /usr/include/postgresql/9.6/server/* /usr/include
 RUN cd /root
-RUN wget -c http://www.public-software-group.org/pub/projects/webmcp/v2.0.3/webmcp-v2.0.3.tar.gz
-RUN tar xzvf webmcp-v2.0.3.tar.gz
+RUN wget -c http://www.public-software-group.org/pub/projects/webmcp/v${LF_WMCP_VERSION}/webmcp-v${LF_WMCP_VERSION}.tar.gz
+RUN tar xzvf webmcp-v${LF_WMCP_VERSION}.tar.gz
 RUN mkdir -p /opt/webmcp
-RUN cd webmcp-v2.0.3 && make && \
+RUN cd webmcp-v${LF_WMCP_VERSION} && make && \
 	cp -RL framework/* /opt/webmcp/
 
 # Install LiquidFeedback frontend
 WORKDIR "/"
-RUN wget -c http://www.public-software-group.org/pub/projects/liquid_feedback/frontend/v3.1.0/liquid_feedback_frontend-v3.1.0.tar.gz
-RUN tar xzvf liquid_feedback_frontend-v3.1.0.tar.gz
+RUN wget -c http://www.public-software-group.org/pub/projects/liquid_feedback/frontend/v${LF_FEND_VERSION}/liquid_feedback_frontend-v${LF_FEND_VERSION}.tar.gz
+RUN tar xzvf liquid_feedback_frontend-v${LF_FEND_VERSION}.tar.gz
 RUN rm -rf /opt/liquid_feedback_frontend ; \
-	mv /liquid_feedback_frontend-v3.1.0 /opt/liquid_feedback_frontend && \
+	mv /liquid_feedback_frontend-v${LF_FEND_VERSION} /opt/liquid_feedback_frontend && \
 	mkdir -p /opt/liquid_feedback_frontend/tmp && \
 	chown -R www-data /opt/liquid_feedback_frontend
 COPY myconfig.lua /opt/liquid_feedback_frontend/config/myconfig.lua
