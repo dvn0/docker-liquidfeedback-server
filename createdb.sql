@@ -8,4 +8,4 @@ INSERT INTO policy (index, name, min_admission_time, max_admission_time, discuss
 INSERT INTO unit (name) VALUES ('Our organization');
 INSERT INTO area (unit_id, name) VALUES (1, 'Default area');
 INSERT INTO allowed_policy (area_id, policy_id, default_policy) VALUES (1, 1, TRUE);
-INSERT INTO member (login, name, admin, password) VALUES ('admin', 'Administrator', TRUE, '$1$/EMPTY/$NEWt7XJg2efKwPm4vectc1');
+INSERT INTO member (activated, last_activity, active, login, name, admin, password) VALUES ('now', 'now', TRUE, 'admin', 'Administrator', TRUE, '$1$/EMPTY/$NEWt7XJg2efKwPm4vectc1');
