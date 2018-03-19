@@ -5,12 +5,12 @@ Docker image to run an instance of the liquidfeedback software
 
 How to build:
 
-	$ make
+	$ docker build -t liquid-feedback .
 
 How to run:
 
-	$ make run
+	$ docker run --sig-proxy=false -p 8080:8080 liquid-feedback
 
-Open the browser:
+Open the browser (on the same machine):
 
-	http://$(docker-machine ip default):8080
+	http://localhost:8080
