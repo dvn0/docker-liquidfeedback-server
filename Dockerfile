@@ -56,11 +56,11 @@ RUN cd /liquid_feedback_core-v${LF_CORE_VERSION} && \
 	cp -f core.sql lf_update lf_update_issue_order lf_update_suggestion_order \
 		/opt/liquid_feedback_core
 
-COPY createdb.sql /tmp
+COPY config_db.sql /tmp
 # USER www-data
 RUN /etc/init.d/postgresql start && sleep 7 && \
 	su - www-data -s /bin/sh -c '/usr/bin/psql -v ON_ERROR_STOP=1 -f /opt/liquid_feedback_core/core.sql liquid_feedback' && \
-	su - www-data -s /bin/sh -c '/usr/bin/psql -f /tmp/createdb.sql liquid_feedback'
+	su - www-data -s /bin/sh -c '/usr/bin/psql -f /tmp/config_db.sql liquid_feedback'
 
 # Create Admin user
 # INSERT INTO member (login, name, admin, password) VALUES ('admin', 'Administrator', TRUE, '$1$/EMPTY/$NEWt7XJg2efKwPm4vectc1');
