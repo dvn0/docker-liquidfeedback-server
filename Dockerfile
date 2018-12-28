@@ -58,7 +58,7 @@ RUN cd /liquid_feedback_core-v${LF_CORE_VERSION} && \
 
 COPY config_db.sql /tmp
 # USER www-data
-RUN /etc/init.d/postgresql start && sleep 7 && \
+RUN /etc/init.d/postgresql start && sleep 70 && \
 	su - www-data -s /bin/sh -c '/usr/bin/psql -v ON_ERROR_STOP=1 -f /opt/liquid_feedback_core/core.sql liquid_feedback' && \
 	su - www-data -s /bin/sh -c '/usr/bin/psql -f /tmp/config_db.sql liquid_feedback'
 
@@ -118,6 +118,10 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 # TODO: remove all packages required to build this to reduce image size
 # RUN apt-get remove ...
 RUN rm -rf /usr/include /usr/share/man /usr/share/doc
+
+COPY profile /root/.profile
+
+VOLUME /var/log
 
 # executed on run
 CMD /etc/init.d/postgresql start && \

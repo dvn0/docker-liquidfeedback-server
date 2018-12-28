@@ -25,8 +25,8 @@
 --	halfway in-between consensus seeking and polling, which may in
 --	fact be suboptimal for either use case.
 --
-INSERT INTO policy (index, name, description, admission_time, discussion_time, verification_time, voting_time, issue_quorum_num, issue_quorum_den, initiative_quorum_num, initiative_quorum_den, direct_majority_num, direct_majority_den, indirect_majority_num, indirect_majority_den) VALUES (1, 'Regular Motion', 'Prolonged debate leading to a final vote after a predictable time period.', '7 days', '60 days', '2 days', '7 days', 20, 100, 20, 100, 2, 3, 1, 2);
-INSERT INTO policy (index, name, description, admission_time, discussion_time, verification_time, voting_time, issue_quorum_num, issue_quorum_den, initiative_quorum_num, initiative_quorum_den, direct_majority_num, direct_majority_den, indirect_majority_num, indirect_majority_den) VALUES (2, 'Urgent Motion', 'Have a quick vote on an urgent matter.', '4 days', '1 day', '1 day', '1 day', 30, 100, 30, 100, 80, 100, 1, 2);
+INSERT INTO policy (index, name, description, min_admission_time, max_admission_time, discussion_time, verification_time, voting_time, issue_quorum_num, issue_quorum_den, initiative_quorum_num, initiative_quorum_den, direct_majority_num, direct_majority_den, indirect_majority_num, indirect_majority_den) VALUES (1, 'Regular Motion', 'Prolonged debate leading to a final vote after a predictable time period.', '1 hour', '7 days', '60 days', '2 days', '7 days', 20, 100, 20, 100, 2, 3, 1, 2);
+INSERT INTO policy (index, name, description, min_admission_time, max_admission_time, discussion_time, verification_time, voting_time, issue_quorum_num, issue_quorum_den, initiative_quorum_num, initiative_quorum_den, direct_majority_num, direct_majority_den, indirect_majority_num, indirect_majority_den) VALUES (2, 'Urgent Motion', 'Have a quick vote on an urgent matter.', '1 hour', '4 days', '1 day', '1 day', '1 day', 30, 100, 30, 100, 80, 100, 1, 2);
 
 -- Consensus policies:
 --	These debates are given all the time in the world until they
@@ -42,12 +42,12 @@ INSERT INTO policy (index, name, description, admission_time, discussion_time, v
 --      compared to having a winning consensus.
 -- FIXME: LQFB could have improved support for consensus-oriented policies.
 --
-INSERT INTO policy (index, name, description, admission_time, discussion_time, verification_time, voting_time, issue_quorum_num, issue_quorum_den, initiative_quorum_num, initiative_quorum_den, direct_majority_num, direct_majority_den, indirect_majority_num, indirect_majority_den) VALUES (3, 'Patient Consensus', 'Have an undetermined amount of time for a search of consensus.', '1 year', '0 days', '2 days', '7 days', 80, 100, 70, 100, 80, 100, 10, 100);
-INSERT INTO policy (index, name, description, admission_time, discussion_time, verification_time, voting_time, issue_quorum_num, issue_quorum_den, initiative_quorum_num, initiative_quorum_den, direct_majority_num, direct_majority_den, indirect_majority_num, indirect_majority_den) VALUES (4, 'Quick Consensus', '7 days', '0 days', '12 hours', '1 day', 80, 100, 70, 100, 80, 100, 10, 100);
+INSERT INTO policy (index, name, description, min_admission_time, max_admission_time, discussion_time, verification_time, voting_time, issue_quorum_num, issue_quorum_den, initiative_quorum_num, initiative_quorum_den, direct_majority_num, direct_majority_den, indirect_majority_num, indirect_majority_den) VALUES (3, 'Patient Consensus', 'Have an undetermined amount of time for a search of consensus.', '1 hour', '1 year', '0 days', '2 days', '7 days', 80, 100, 70, 100, 80, 100, 10, 100);
+INSERT INTO policy (index, name, description, min_admission_time, max_admission_time, discussion_time, verification_time, voting_time, issue_quorum_num, issue_quorum_den, initiative_quorum_num, initiative_quorum_den, direct_majority_num, direct_majority_den, indirect_majority_num, indirect_majority_den) VALUES (4, 'Quick Consensus', 'See if we can quickly reach a consensus to work with.', '1 hour', '7 days', '0 days', '12 hours', '1 day', 80, 100, 70, 100, 80, 100, 10, 100);
 
 -- This is a consensus evaluation policy intended to never enter voting phase.
 -- Worst case it just hangs around in the database unattended.
-INSERT INTO policy (index, name, description, admission_time, discussion_time, verification_time, voting_time, issue_quorum_num, issue_quorum_den) VALUES (5, 'Ongoing Evaluation', 'Have an undetermined evaluation of consensus without final ratification.', '1000 years', '0 days', '0 days', '0 days', 101, 100);
+INSERT INTO policy (index, name, description, min_admission_time, max_admission_time, discussion_time, verification_time, voting_time, issue_quorum_num, issue_quorum_den, initiative_quorum_num, initiative_quorum_den, direct_majority_num, direct_majority_den, indirect_majority_num, indirect_majority_den) VALUES (5, 'Ongoing Evaluation', 'Have an undetermined evaluation of consensus without final ratification.', '1000 years', '1000 years', '0 days', '0 days', '0 days', 101, 100, 101, 100, 101, 100, 101, 100);
 
 -- We do not provide simple majority voting policies for the Assembly
 -- as they have terrible consequences for the social cohesion of the
@@ -62,8 +62,8 @@ INSERT INTO policy (index, name, description, admission_time, discussion_time, v
 --
 -- Simple majority voting policies:
 
-INSERT INTO policy (index, name, description, admission_time, discussion_time, verification_time, voting_time, issue_quorum_num, issue_quorum_den, initiative_quorum_num, initiative_quorum_den, direct_majority_num, direct_majority_den, indirect_majority_num, indirect_majority_den, no_reverse_beat_path, no_multistage_majority) VALUES (6, 'Regular Majority', 'Simple majority decisions for executive or judicial branches.', '7 days', '4 days', '8 hours', '1 day', 20, 100, 20, 100, 50, 100, TRUE, TRUE);
-INSERT INTO policy (index, name, description, admission_time, discussion_time, verification_time, voting_time, issue_quorum_num, issue_quorum_den, initiative_quorum_num, initiative_quorum_den, direct_majority_num, direct_majority_den, indirect_majority_num, indirect_majority_den, no_reverse_beat_path, no_multistage_majority) VALUES (7, 'Urgent Majority', 'Simple majority executive or judicial decisions on an urgent matter.', '4 days', '1 day', '4 hours', '1 day', 30, 100, 30, 100, 50, 100, TRUE, TRUE);
+INSERT INTO policy (index, name, description, min_admission_time, max_admission_time, discussion_time, verification_time, voting_time, issue_quorum_num, issue_quorum_den, initiative_quorum_num, initiative_quorum_den, direct_majority_num, direct_majority_den, indirect_majority_num, indirect_majority_den, no_reverse_beat_path, no_multistage_majority) VALUES (6, 'Regular Majority', 'Simple majority decisions for executive or judicial branches.', '1 hour', '7 days', '4 days', '8 hours', '1 day', 20, 100, 20, 100, 50, 100, 10, 100, TRUE, TRUE);
+INSERT INTO policy (index, name, description, min_admission_time, max_admission_time, discussion_time, verification_time, voting_time, issue_quorum_num, issue_quorum_den, initiative_quorum_num, initiative_quorum_den, direct_majority_num, direct_majority_den, indirect_majority_num, indirect_majority_den, no_reverse_beat_path, no_multistage_majority) VALUES (7, 'Urgent Majority', 'Simple majority executive or judicial decisions on an urgent matter.', '1 hour', '4 days', '1 day', '4 hours', '1 day', 30, 100, 30, 100, 50, 100, 10, 100, TRUE, TRUE);
 
 
 --=== Section Two: UNITS ===--
@@ -71,7 +71,7 @@ INSERT INTO policy (index, name, description, admission_time, discussion_time, v
 -- You may want to use LQFB for multiple groups of people.
 -- This configuration only defines one such group.
 --
-INSERT INTO unit (id, parent_id, name, description) VALUES (1, 0, 'Our Group', "Welcome to Liquid Feedback in carlo von lynX's configuration, whoever you are. You should describe your group or organization here.");
+INSERT INTO unit (id, parent_id, name, external_reference, description) VALUES (1, NULL, 'Our Group', 'https://structure.pages.de', 'Welcome to Liquid Feedback in carlo von lynX''s configuration, whoever you are. You should describe your group or organization here.');
 
 -- The Integrity Council has to be manually populated with
 -- those members of the Assembly that got elected to have
@@ -80,7 +80,7 @@ INSERT INTO unit (id, parent_id, name, description) VALUES (1, 0, 'Our Group', "
 -- LQFB themselves. The VC or IC is hereby defined as a
 -- sub-unit of the unit containing everyone.
 --
-INSERT INTO unit (id, parent_id, name, description) VALUES (2, 1, 'Validating Council', "The Validating Council is an elected judicial body of the organization that checks the legal integrity of Assembly decisions, to ensure that demagogic or confused proposals cannot trick the Assembly into voting inconsistently with previous choices.");
+INSERT INTO unit (id, parent_id, name, description) VALUES (2, 1, 'Validating Council', 'The Validating Council is an elected judicial body of the organization that checks the legal integrity of Assembly decisions, to ensure that demagogic or confused proposals cannot trick the Assembly into voting inconsistently with previous choices.');
 --
 -- Typical use of further sub-units is to define topological
 -- subgroups such as regions, nations, continents. But does it
@@ -102,17 +102,17 @@ INSERT INTO area (id, unit_id, name, description) VALUES (1, 1, 'Assembly Founda
 -- We only allow high consensus policies for foundational decisions.
 INSERT INTO allowed_policy (area_id, policy_id, default_policy) VALUES (1, 3, TRUE);
 -- Even urgent ones, if almost everybody agrees.
-INSERT INTO allowed_policy (area_id, policy_id, default_policy) VALUES (1, 4, TRUE);
+INSERT INTO allowed_policy (area_id, policy_id, default_policy) VALUES (1, 4, FALSE);
 
 -- Here's a place to try things out. It can have all the policies.
 INSERT INTO area (id, unit_id, name, description) VALUES (2, 1, 'Sandbox', 'This is a place to try out how Liquid Fedback works.');
-INSERT INTO allowed_policy (area_id, policy_id, default_policy) VALUES (2, 1, FALSE);
+INSERT INTO allowed_policy (area_id, policy_id, default_policy) VALUES (2, 1, TRUE);
 INSERT INTO allowed_policy (area_id, policy_id, default_policy) VALUES (2, 2, FALSE);
 INSERT INTO allowed_policy (area_id, policy_id, default_policy) VALUES (2, 3, FALSE);
 INSERT INTO allowed_policy (area_id, policy_id, default_policy) VALUES (2, 4, FALSE);
-INSERT INTO allowed_policy (area_id, policy_id, default_policy) VALUES (2, 5, TRUE);
-INSERT INTO allowed_policy (area_id, policy_id, default_policy) VALUES (2, 6, TRUE);
-INSERT INTO allowed_policy (area_id, policy_id, default_policy) VALUES (2, 7, TRUE);
+INSERT INTO allowed_policy (area_id, policy_id, default_policy) VALUES (2, 5, FALSE);
+INSERT INTO allowed_policy (area_id, policy_id, default_policy) VALUES (2, 6, FALSE);
+INSERT INTO allowed_policy (area_id, policy_id, default_policy) VALUES (2, 7, FALSE);
 
 -- Executive subgroups have the extra requirement that everyone
 -- who chooses to participate should be obliged to delegate as
@@ -146,6 +146,14 @@ INSERT INTO allowed_policy (area_id, policy_id, default_policy) VALUES (5, 3, FA
 INSERT INTO allowed_policy (area_id, policy_id, default_policy) VALUES (5, 4, TRUE);
 -- Notice how the 'Art Direction' needs no authority to decide
 -- who is a competent art directrice or director.
+
+-- Here's the working area for the VC (or IC).
+-- Done quickly, not sure if the chosen defaults are good.
+INSERT INTO area (id, unit_id, name, description) VALUES (6, 2, 'Integrity Ruling', 'This is where the Validating Council votes on interpretation and consistency of previous Assembly decisions. Only elected members of the Validating Council participate here.');
+-- Unfortunately high disagreement on how to make everyday decisions
+-- is frequent, so the simple majority method comes into play:
+INSERT INTO allowed_policy (area_id, policy_id, default_policy) VALUES (6, 6, FALSE);
+INSERT INTO allowed_policy (area_id, policy_id, default_policy) VALUES (6, 7, TRUE);
 
 
 --=== Section Four: SYSTEM SETTINGS ===--
