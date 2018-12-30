@@ -14,3 +14,10 @@ How to run:
 Open the browser (on the same machine):
 
 	http://localhost:8080
+
+
+Notes:
+
+For debugging purposes it can be useful to know where postgres is storing its data:
+
+        $ psql -c "show data_directory;"
