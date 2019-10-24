@@ -15,6 +15,7 @@ Open the browser (on the same machine):
 
 	http://localhost:8080
 
+Admin user has NO password by default
 
 Notes:
 
